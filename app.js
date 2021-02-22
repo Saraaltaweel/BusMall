@@ -65,9 +65,11 @@ while(middle === left || middle === right){
     
 }
     leftImgEl.setAttribute('src', arr[left].source); 
+    arr[left].itrTime++;
     middleImgEl.setAttribute('src', arr[middle].source); 
+    arr[middle].itrTime++;
     rightImgEl.setAttribute('src', arr[right].source);
-
+    arr[right].itrTime++;
    
 
 }
@@ -87,22 +89,16 @@ function click(event){
     if(attempts <= maxClick){
         if(event.target.id === 'leftImg'){
             arr[left].vote++;
-            arr[left].itrTime++;
-            arr[middle].itrTime++;
-            arr[right].itrTime++;
+            
           
         }else if(event.target.id === 'middleImg'){
             arr[middle].vote++;
-            arr[middle].itrTime++;
-            arr[left].itrTime++;
-            arr[right].itrTime++;
+           
            
         }
         else{
             arr[middle].vote++;
-            arr[middle].itrTime++;
-            arr[left].itrTime++;
-            arr[right].itrTime++;
+       
 
         }
         renderRandomImg();
