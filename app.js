@@ -9,12 +9,16 @@ let middleImgEl = document.getElementById('middleImg');
 let rightImgEl = document.getElementById('rightImg');
 
 let arr=[];
+let arrName = [];
+let voteCount = [];
+let imgCount = [];
 function busMall(name, source){
     this.name = name;
     this.source = source;
     arr.push(this);
     this.itrTime=0;
     this.vote=0;
+    arrName.push(this.name);
 
 }
 new busMall('bag','img/bag.jpg');
@@ -111,7 +115,11 @@ function click(event){
             unorder.appendChild(li);                                     
             li.textContent = `${arr[i].name} it has ${arr[i].vote} Votes , and iteration times ${arr[i].itrTime} times.`
         }
-
+        for(let j = 0 ; j <arr.length; j++){
+            voteCount.push(arr[j].vote);
+            imgCount.push(arr[j].itrTime);
+        }
+        chartRender();
         leftImgEl.removeEventListener('click', click);
         middleImgEl.removeEventListener('click', click);
         rightImgEl.removeEventListener('click', click);    
@@ -119,6 +127,31 @@ function click(event){
 
 
 }
-
-
-
+function chartRender(){
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        
+        type: 'bar',
+    
+      
+        data: {
+            labels: arrName,
+            datasets: [{
+                label: 'vote',
+                backgroundColor: 'rgb(0, 0, 0)',
+                borderColor: 'rgb(0, 0, 0)',
+                data: voteCount,
+            },{
+                label: 'iteration img',
+                backgroundColor: 'rgb(96, 96, 96)',
+                borderColor:'A5EB68',
+                data:imgCount,
+    
+            }]
+        },
+    
+        
+        options: {}
+    });
+    
+}
