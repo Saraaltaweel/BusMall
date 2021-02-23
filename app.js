@@ -77,12 +77,13 @@ while(middle === left || middle === right){
    
 
 }
+
 renderRandomImg();
 function getRandom(){
     let randomImg = Math.floor(Math.random() * arr.length); 
     return randomImg;
     }
-
+   
 leftImgEl.addEventListener('click', click);
 middleImgEl.addEventListener('click', click);
 rightImgEl.addEventListener('click', click);
@@ -120,6 +121,8 @@ function click(event){
             imgCount.push(arr[j].itrTime);
         }
         chartRender();
+        setMall();
+       
         leftImgEl.removeEventListener('click', click);
         middleImgEl.removeEventListener('click', click);
         rightImgEl.removeEventListener('click', click);    
@@ -127,6 +130,8 @@ function click(event){
 
 
 }
+
+
 function chartRender(){
     var ctx = document.getElementById('myChart').getContext('2d');
     var chart = new Chart(ctx, {
@@ -155,3 +160,22 @@ function chartRender(){
     });
     
 }
+
+function setMall(){
+    let mall = JSON.stringify(arr);
+    localStorage.setItem('info',mall);
+    
+    }
+    function getMall(){
+        let get = localStorage.getItem('info');
+        let unlist = JSON.parse(get);
+        if (unlist){
+            arr=unlist;
+    
+            }
+            else{
+                arr=[];
+            }
+            renderRandomImg();
+        }
+        getMall();
