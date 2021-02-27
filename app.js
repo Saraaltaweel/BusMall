@@ -7,7 +7,7 @@ let maxClick = 25;
 let leftImgEl = document.getElementById('leftImg');
 let middleImgEl = document.getElementById('middleImg');
 let rightImgEl = document.getElementById('rightImg');
-
+let ButtonElement = document.getElementById('submit')
 let arr=[];
 let arrName = [];
 let voteCount = [];
@@ -43,31 +43,37 @@ new busMall('water-can','img/water-can.jpg');
 new busMall('wine-glass','img/wine-glass.jpg');
 
 
-let left ;
-let middle;
-let right;
+let left = -1 ;
+let middle = -1;
+let right = -1;
 
 function renderRandomImg(){
+    let previouslyDisplayed = [left,middle,right];
    left = getRandom();
    middle = getRandom();
    right = getRandom();
 
-
-   while(left === middle || left === right){
-    left = getRandom(); 
-
-    
-}
-while(right === middle || right === left){
-    right = getRandom(); 
-
-    
-}
-while(middle === left || middle === right){
-    middle = getRandom(); 
-
-    
-}
+  while(previouslyDisplayed.includes(left)){
+      left=getRandom();
+  }
+  while(left===middle || previouslyDisplayed.includes(left)){
+          middle=getRandom();
+        }
+  while(right===left ||right===middle|| previouslyDisplayed.includes(right)){
+    right=getRandom();
+    }
+//    while () {
+//      if (previouslyDisplayed.includes(left)){
+//        left=getRandom();
+//      }
+//      else if(left===middle || previouslyDisplayed.includes(left)){
+//        middle=getRandom();
+//      }
+//      else if(right===left ||right===middle|| previouslyDisplayed.includes(right))
+//      {right=getRandom();
+//      }
+//      else { same=false;}
+//    }
     leftImgEl.setAttribute('src', arr[left].source); 
     arr[left].itrTime++;
     middleImgEl.setAttribute('src', arr[middle].source); 
@@ -102,35 +108,42 @@ function click(event){
            
         }
         else{
-            arr[middle].vote++;
+            arr[right].vote++;
        
 
         }
+        setMall();
         renderRandomImg();
        
     }else{
-        let unorder = document.getElementById('unorder');
+        leftImgEl.removeEventListener('click', click);
+        middleImgEl.removeEventListener('click', click);
+        rightImgEl.removeEventListener('click', click);    
+        
+        for(let j = 0 ; j <arr.length; j++){
+            voteCount.push(arr[j].vote);
+            imgCount.push(arr[j].itrTime);
+        }
+        
+       
+    }
+
+
+}
+ButtonElement.addEventListener('click',buttonclick);
+function buttonclick(){
+let unorder = document.getElementById('unorder');
         let li;
         for(let i = 0 ; i < arr.length; i++){
             li = document.createElement('li');
             unorder.appendChild(li);                                     
             li.textContent = `${arr[i].name} it has ${arr[i].vote} Votes , and iteration times ${arr[i].itrTime} times.`
         }
-        for(let j = 0 ; j <arr.length; j++){
-            voteCount.push(arr[j].vote);
-            imgCount.push(arr[j].itrTime);
-        }
         chartRender();
-        setMall();
-       
-        leftImgEl.removeEventListener('click', click);
-        middleImgEl.removeEventListener('click', click);
-        rightImgEl.removeEventListener('click', click);    
+
+        ButtonElement.removeEventListener('click',buttonclick);
+         
     }
-
-
-}
-
 
 function chartRender(){
     var ctx = document.getElementById('myChart').getContext('2d');
